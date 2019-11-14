@@ -1,10 +1,15 @@
-const users = [
-    {name: 'Zé da Silva', email: 'ze@gmail.com'},
-    {name: 'jão da Silva', email: 'jao@gmail.com'},
-]
+const mongoose = require('mongoose')
 
-export class User {
-    static findAll(): Promise<any[]>{
-        return Promise.resolve(users)
-    }
-}
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  email: {
+    type: String,
+    unique: true
+  },
+  password: {
+    type: String
+  }
+})
+export const User = mongoose.model('User', userSchema)

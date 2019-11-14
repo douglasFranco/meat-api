@@ -1,12 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const users = [
-    { name: 'Zé da Silva', email: 'ze@gmail.com' },
-    { name: 'jão da Silva', email: 'jao@gmail.com' },
-];
-class User {
-    static findAll() {
-        return Promise.resolve(users);
+const mongoose = require('mongoose');
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String
+    },
+    email: {
+        type: String,
+        unique: true
+    },
+    password: {
+        type: String
     }
-}
-exports.User = User;
+});
+exports.User = mongoose.model('User', userSchema);
