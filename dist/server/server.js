@@ -13,9 +13,7 @@ const environment_1 = require("../common/environment");
 class Server {
     initializyDb() {
         mongoose.Promise = global.Promise;
-        return mongoose.connect(environment_1.environment.db.url, {
-            useMongoClient: true
-        });
+        return mongoose.connect('mongodb://douglasFranco:doda4763128402@clustermeat-shard-00-00-vxchz.gcp.mongodb.net:27017,clustermeat-shard-00-01-vxchz.gcp.mongodb.net:27017,clustermeat-shard-00-02-vxchz.gcp.mongodb.net:27017/meat-api?ssl=true&replicaSet=ClusterMeat-shard-0&authSource=admin&retryWrites=true&w=majority', { dbName: 'meat-api' });
     }
     initRoutes(routers) {
         return new Promise((resolve, reject) => {
