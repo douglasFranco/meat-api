@@ -1,4 +1,10 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+
+export interface User extends mongoose.Document {
+  name: string,
+  email: string,
+  password: string
+}
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -9,7 +15,8 @@ const userSchema = new mongoose.Schema({
     unique: true
   },
   password: {
-    type: String
+    type: String,
+    select: false
   }
 })
 export const User = mongoose.model('User', userSchema)

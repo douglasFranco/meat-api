@@ -1,30 +1,27 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const restify = __importStar(require("restify"));
-const mongoose = require('mongoose');
+const restify_1 = __importDefault(require("restify"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const environment_1 = require("../common/environment");
+const merge_patch_parser_1 = require("./merge-patch.parser");
 class Server {
     initializyDb() {
-        mongoose.Promise = global.Promise;
-        return mongoose.connect(environment_1.environment.db.url, {
-            useMongoClient: true
-        });
+        mongoose_1.default.Promise = global.Promise;
+        return mongoose_1.default.connect(environment_1.environment.db.url, { useMongoClient: true });
     }
     initRoutes(routers) {
         return new Promise((resolve, reject) => {
             try {
-                this.application = restify.createServer({
+                this.application = restify_1.default.createServer({
                     name: 'meat-api',
                     version: '1.0.0'
                 });
-                this.application.use(restify.plugins.queryParser());
+                this.application.use(restify_1.default.plugins.queryParser());
+                this.application.use(restify_1.default.plugins.bodyParser());
+                this.application.use(merge_patch_parser_1.mergePatchBodyParser);
                 this.application.listen(environment_1.environment.server.port, () => {
                     resolve(this.application);
                 });
