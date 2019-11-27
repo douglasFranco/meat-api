@@ -7,6 +7,7 @@ const restify_1 = __importDefault(require("restify"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const environment_1 = require("../common/environment");
 const merge_patch_parser_1 = require("./merge-patch.parser");
+const error_handler_1 = require("./error.handler");
 class Server {
     initializyDb() {
         mongoose_1.default.Promise = global.Promise;
@@ -22,9 +23,10 @@ class Server {
                 this.application.use(restify_1.default.plugins.queryParser());
                 this.application.use(restify_1.default.plugins.bodyParser());
                 this.application.use(merge_patch_parser_1.mergePatchBodyParser);
-                this.application.listen(environment_1.environment.server.port, () => {
+                this.application.listen(environment_1.environment.server.port, environment_1.environment.server.adress, () => {
                     resolve(this.application);
                 });
+                this.application.on('restifyError', error_handler_1.handleError);
                 for (let router of routers) {
                     router.applyRoutes(this.application);
                 }
