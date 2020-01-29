@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const validators_1 = require("../common/validators");
 const userSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -30,6 +31,10 @@ const userSchema = new mongoose_1.default.Schema({
     cpf: {
         type: String,
         required: false,
+        validate: {
+            validator: validators_1.validateCPF,
+            message: '{PATH}: Invalid CPF ({VALUE})'
+        }
     }
 });
 exports.User = mongoose_1.default.model('User', userSchema);
